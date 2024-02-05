@@ -65,14 +65,15 @@
 <body>
 <div class="container">
   <h1 onclick="moveAllToReading()">온라인 대시보드</h1>
-  <div class="section" id="readingSection" onclick="moveToReading()">
+  <div class="section" id="readingSection" onclick="moveToCompleted()">
     <h2>읽는 중</h2>
     <ul id="readingList"></ul>
   </div>
-  <div class="section" id="completedSection" onclick="moveToCompleted()">
+  <div class="section" id="completedSection" onclick="moveToReading()">
     <h2>완료</h2>
     <ul id="completedList"></ul>
   </div>
+  <button onclick="join()">참여</button>
 </div>
 
 <script>
@@ -82,11 +83,13 @@
   // 완료 섹션에 있는 참여자를 저장할 배열
   let completedParticipants = [];
 
-  // 참여자 이름을 읽는중 섹션에 자동으로 추가
-  let username = prompt("참여하시겠습니까? 이름을 입력하세요.");
-  if (username) {
-    readingParticipants.push(username);
-    updateReadingList();
+  // 참여자 이름을 읽는중 섹션에 추가하는 함수
+  function join() {
+    let username = prompt("참여하시겠습니까? 이름을 입력하세요.");
+    if (username) {
+      readingParticipants.push(username.trim()); // 이름 앞뒤 공백 제거 후 배열에 추가
+      updateReadingList();
+    }
   }
 
   // 모든 참여자를 읽는 중 섹션으로 이동
