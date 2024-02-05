@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>온라인 대시보드</title>
+  <style>
+    /* 스타일링 */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      text-align: center;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>온라인 대시보드</h1>
+  <p>완료 버튼을 클릭하세요.</p>
+  <button id="completeButton">완료</button>
+</div>
+
+<script>
+  // JavaScript로 완료 버튼 클릭 이벤트 처리
+  document.getElementById('completeButton').addEventListener('click', function() {
+    alert('작업이 완료되었습니다.');
+    // 여기에 완료 버튼을 클릭했을 때의 추가 동작을 구현할 수 있습니다.
+  });
+</script>
+</body>
+</html>
