@@ -9,11 +9,24 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background-color: #f5f5f5;
     }
     .container {
-      max-width: 600px;
+      max-width: 800px;
       margin: 50px auto;
       text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #007bff;
+      cursor: pointer;
+    }
+    h2 {
+      color: #333;
+      cursor: pointer;
     }
     button {
       padding: 10px 20px;
@@ -23,51 +36,108 @@
       border: none;
       cursor: pointer;
       margin: 5px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
     }
     button:hover {
       background-color: #0056b3;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      padding: 10px;
+      border-radius: 5px;
+      margin: 5px 0;
+    }
+    .section {
+      margin-top: 30px;
+    }
+    .reading {
+      background-color: #ff9999; /* 빨간색 배경 */
+    }
+    .completed {
+      background-color: #99ccff; /* 파란색 배경 */
     }
   </style>
 </head>
 <body>
 <div class="container">
-  <h1>온라인 대시보드</h1>
-  <input type="text" id="nameInput" placeholder="이름을 입력하세요">
-  <button id="joinButton">참여</button>
-  <button id="clearButton">Clear</button>
-  <hr>
-  <h2>참여자 리스트</h2>
-  <ul id="participantsList"></ul>
+  <h1 onclick="moveAllToReading()">온라인 대시보드</h1>
+  <div class="section" id="readingSection" onclick="moveToReading()">
+    <h2>읽는 중</h2>
+    <ul id="readingList"></ul>
+  </div>
+  <div class="section" id="completedSection" onclick="moveTomoveToCompleted()">
+    <h2>완료</h2>
+    <ul id="completedList"></ul>
+  </div>
 </div>
 
 <script>
-  // 참여자 리스트를 저장할 배열
-  let participants = [];
+  // 읽는 중 참여자를 저장할 배열
+  let readingParticipants = [];
 
-  // 참여 버튼 클릭 시 실행되는 함수
-  document.getElementById('joinButton').addEventListener('click', function() {
-    let name = document.getElementById('nameInput').value;
-    if (name.trim() !== '') {
-      participants.push(name);
-      updateParticipantsList();
-      document.getElementById('nameInput').value = '';
+  // 완료 섹션에 있는 참여자를 저장할 배열
+  let completedParticipants = [];
+
+  // 참여자 이름을 읽는중 섹션에 자동으로 추가
+  let username = prompt("참여하시겠습니까? 이름을 입력하세요.");
+  if (username) {
+    readingParticipants.push(username);
+    updateReadingList();
+  }
+
+  // 모든 참여자를 읽는 중 섹션으로 이동
+  function moveAllToReading() {
+    readingParticipants = readingParticipants.concat(completedParticipants);
+    completedParticipants = [];
+    updateReadingList();
+    updateCompletedList();
+  }
+
+  // 읽는 중 섹션으로 이동
+  function moveToReading() {
+    if (completedParticipants.length > 0) {
+      readingParticipants = readingParticipants.concat(completedParticipants);
+      completedParticipants = [];
+      updateReadingList();
+      updateCompletedList();
     }
-  });
+  }
 
-  // clear 버튼 클릭 시 실행되는 함수
-  document.getElementById('clearButton').addEventListener('click', function() {
-    participants = [];
-    updateParticipantsList();
-  });
+  // 완료 섹션으로 이동
+  function moveToCompleted() {
+    if (readingParticipants.length > 0) {
+      completedParticipants = completedParticipants.concat(readingParticipants);
+      readingParticipants = [];
+      updateReadingList();
+      updateCompletedList();
+    }
+  }
 
-  // 참여자 리스트 업데이트 함수
-  function updateParticipantsList() {
-    let participantsList = document.getElementById('participantsList');
-    participantsList.innerHTML = '';
-    participants.forEach(function(name) {
+  // 읽는 중 참여자 리스트 업데이트 함수
+  function updateReadingList() {
+    let readingList = document.getElementById('readingList');
+    readingList.innerHTML = '';
+    readingParticipants.forEach(function(name) {
       let listItem = document.createElement('li');
       listItem.textContent = name;
-      participantsList.appendChild(listItem);
+      listItem.classList.add('reading'); // 빨간색 배경 클래스 추가
+      readingList.appendChild(listItem);
+    });
+  }
+
+  // 완료 섹션에 완료된 참여자 추가 함수
+  function updateCompletedList() {
+    let completedList = document.getElementById('completedList');
+    completedList.innerHTML = '';
+    completedParticipants.forEach(function(name) {
+      let listItem = document.createElement('li');
+      listItem.textContent = name;
+      listItem.classList.add('completed'); // 파란색 배경 클래스 추가
+      completedList.appendChild(listItem);
     });
   }
 </script>
